@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Email Phishing Analyzer | T.E.S.T.</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary": "#00bfff",
+          "background-light": "#f3f5f7",
+          "background-dark": "#0c0f13",
+          "card-dark": "#161b22",
+          "border-dark": "#30363d",
+          "slate-panel": "#111827",
+          "slate-card": "#1e293b",
+        },
+        fontFamily: {
+          "display": ["Manrope", "sans-serif"],
+          "technical": ["Space Grotesk", "sans-serif"],
+        },
+        borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+      },
+    },
+  }
+</script>
+<style type="text/tailwindcss">
+  .grid-bg {
+    background-image: linear-gradient(rgba(0,191,255,0.05) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(0,191,255,0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .neo-glow { box-shadow: 0 0 20px rgba(0,191,255,0.15); }
+  .gauge-gradient {
+    background: conic-gradient(from 180deg at 50% 50%, #00bfff 0%, #f97316 60%, #ef4444 100%);
+  }
+  .glass-panel {
+    backdrop-filter: blur(12px);
+    background: rgba(17,24,39,0.7);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .scan-line {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00bfff, transparent);
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    opacity: 0.3;
+    pointer-events: none;
+  }
+  .cyber-grid {
+    background-image:
+      linear-gradient(rgba(0,191,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,191,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  /* Your backend's custom checkbox styles — untouched */
+  .custom-checkbox { display: none; }
+  .checkbox-box {
+    width: 1.25rem; height: 1.25rem;
+    border-radius: 0.25rem;
+    border: 1px solid #4b5563;
+    display: inline-block;
+    transition: border-color 0.2s, background-color 0.2s;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .custom-checkbox:checked + label .checkbox-box {
+    border-color: #00bfff;
+    background-color: rgba(0,191,255,0.2);
+  }
+  .custom-checkbox:checked + label .checkbox-box::after {
+    content: '';
+    position: absolute;
+    top: 2px; left: 5px;
+    width: 5px; height: 9px;
+    border: 2px solid #00bfff;
+    border-top: none;
+    border-left: none;
+    transform: rotate(45deg);
+  }
+</style>
+</head>
+<body class="bg-background-dark text-slate-900 dark:text-slate-100 m-0 p-0">
+
+<!-- Main Layout Container -->
+<div class="flex h-screen w-screen overflow-hidden">
+
+  <!-- LEFT SIDEBAR -->
+  <aside class="w-72 border-r border-border-dark bg-card-dark z-30 flex-shrink-0 flex flex-col justify-between">
+    <div class="p-6">
+      <div class="flex items-start gap-3 mb-10">
+        <div class="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center neo-glow border border-primary/30 shrink-0">
+          <span class="material-symbols-outlined text-primary font-bold text-3xl">shield</span>
+        </div>
+        <div class="overflow-hidden">
+          <h1 class="font-mono font-bold text-2xl tracking-tighter text-white leading-none">T.E.S.T.</h1>
+          <p class="text-[9px] uppercase tracking-tighter text-slate-400 font-bold mt-1 leading-tight">Threat Evaluation &amp; Security Tool</p>
+        </div>
+      </div>
+      <nav class="space-y-2">
+        <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 hover:text-white transition-all" href="dashboard.html">
+          <span class="material-symbols-outlined">dashboard</span>
+          <span class="font-medium">Dashboard</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 hover:text-white transition-all" href="vulnerability_Scanner.html">
+          <span class="material-symbols-outlined">security</span>
+          <span class="font-medium">WVS Scanner</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary/10 text-primary border border-primary/20" href="Phishing_analyzer.html">
+          <span class="material-symbols-outlined">mail_lock</span>
+          <span class="font-medium">Email Analyzer</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 hover:text-white transition-all" href="#">
+          <span class="material-symbols-outlined">terminal</span>
+          <span class="font-medium">Log SOC</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 hover:text-white transition-all" href="#">
+          <span class="material-symbols-outlined">memory</span>
+          <span class="font-medium">AI Core</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Sidebar Footer -->
+    <div class="p-6 border-t border-border-dark">
+      <div class="bg-primary/5 border border-primary/10 rounded-xl p-4 mb-4">
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-xs font-bold text-primary">NODE STATUS</span>
+          <div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+        </div>
+        <p class="text-[11px] text-slate-400 leading-relaxed">AI engine operating at 98.4% efficiency. No active breaches detected.</p>
+      </div>
+      <button class="w-full py-3 bg-primary text-background-dark font-bold rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined text-sm">bolt</span>
+        Upgrade Plan
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT AREA -->
+  <div class="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
+
+    <!-- HEADER -->
+    <header class="h-20 border-b border-border-dark flex items-center justify-between px-8 bg-background-dark/80 backdrop-blur-xl sticky top-0 z-20 flex-shrink-0">
+      <div class="flex items-center gap-4 flex-1">
+        <h2 class="text-xl font-bold font-mono tracking-tight text-white flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary">sensors</span>
+          EMAIL_ANALYSIS_MODE
+        </h2>
+        <div class="h-4 w-[1px] bg-border-dark mx-2"></div>
+        <div class="relative flex-1 max-w-md">
+          <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-sm">search</span>
+          <input class="bg-white/5 border border-border-dark rounded-full pl-10 pr-4 py-1.5 text-sm w-full focus:ring-primary focus:border-primary text-white outline-none" placeholder="Search threats, logs, nodes..." type="text"/>
+        </div>
+      </div>
+      <div class="flex items-center gap-6">
+        <div class="flex items-center gap-3">
+          <button class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-primary border border-white/10">
+            <span class="material-symbols-outlined">notifications</span>
+          </button>
+          <button class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-primary border border-white/10">
+            <span class="material-symbols-outlined">settings</span>
+          </button>
+        </div>
+        <div class="h-10 w-[1px] bg-border-dark"></div>
+        <div class="flex items-center gap-3">
+          <div class="text-right">
+            <!--********************************** added by krisha  **********************************-->
+            <p id="username" class="text-sm font-bold text-white leading-none"></p>
+            <p id="role" class="text-[10px] text-primary font-mono uppercase tracking-widest mt-1"></p>
+            <!-- *********************************************************************************** -->
+          </div>
+          <!-- Avatar click opens right panel (from friend's update) -->
+          <button onclick="openPanel()" class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-blue-600 p-[2px] cursor-pointer hover:scale-105 transition-transform focus:outline-none">
+            <div class="w-full h-full rounded-full bg-background-dark flex items-center justify-center overflow-hidden">
+              <img alt="Admin avatar" class="w-full h-full object-cover"
+                   src="https://lh3.googleusercontent.com/aida-public/AB6AXuC27H73i3giOoKmDuVGpSFoaR7nULeNf3JBnGZUP-5HYEtbFKttm90f00NV_ySyAg2qsBg8WO7497M3V90vSBXHDf22MOwU3u-16cysZzLdD82ey6q8PtCFntR17LtAC_tVghfhqpqvpn5u0C1AP0-Cg8AMZr72R-U6enmspUG-gxcfY8DxBA_eJ8ygnSc39hmZoXDqEmEDJ3cSsfsX_YT1g2tv_et7BD7wczvT87ZfvxadahtYqdnLFTrpfnUcbB1rjt_VpQu9smw"/>
+            </div>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 overflow-y-auto cyber-grid">
+      <div class="p-8 space-y-8 max-w-[1400px] mx-auto w-full">
+
+        <!-- BREADCRUMB + PAGE TITLE -->
+        <div class="flex flex-col gap-2">
+          <div class="flex items-center gap-2 text-xs font-medium text-slate-500 uppercase tracking-widest">
+            <a class="hover:text-primary transition-colors" href="#">Modules</a>
+            <span class="material-symbols-outlined text-[10px]">chevron_right</span>
+            <span class="text-primary">Email Phishing Analyzer</span>
+          </div>
+          <div class="flex justify-between items-end">
+            <div>
+              <h1 class="text-4xl font-black text-white font-technical tracking-tighter uppercase">Phishing Inspector</h1>
+              <p class="text-slate-400 mt-1 max-w-xl">Deep AI-driven forensic inspection and behavioral analysis for students and small organizations.</p>
+            </div>
+            <button class="bg-primary/10 text-primary border border-primary/20 px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 hover:bg-primary/20 transition-all">
+              <span class="material-symbols-outlined text-sm">menu_book</span>
+              View Analysis Docs
+            </button>
+          </div>
+        </div>
+
+        <!-- Two-column layout -->
+        <div class="flex flex-col lg:flex-row gap-6">
+
+          <!-- LEFT COLUMN -->
+          <div class="flex-[3] flex flex-col gap-4">
+
+            <!-- Email Input Panel -->
+            <div class="glass-panel rounded-xl overflow-hidden flex flex-col min-h-[500px] relative">
+              <div class="flex border-b border-white/10 bg-white/5">
+                <button class="px-6 py-4 text-sm font-bold border-b-2 border-primary text-primary flex items-center gap-2">
+                  <span class="material-symbols-outlined text-sm">mail</span>
+                  Email Body
+                </button>
+                <button class="px-6 py-4 text-sm font-medium text-slate-400 hover:text-white flex items-center gap-2 border-b-2 border-transparent">
+                  <span class="material-symbols-outlined text-sm">code</span>
+                  Technical Headers
+                </button>
+              </div>
+
+              <!-- Textarea area -->
+              <div class="relative flex-1 group">
+                <div class="scan-line"></div>
+                <textarea
+                  id="emailBody"
+                  class="w-full h-full min-h-[380px] bg-transparent border-none focus:ring-0 p-8 text-slate-300 font-mono text-sm leading-relaxed placeholder:text-slate-600 resize-none"
+                  placeholder="From: info@paypaI-secure.com&#10;Subject: Urgent: Your account has been suspended!&#10;Dear Customer, we noticed unusual activity on your account...&#10;http://verify-secure-login-392.com/paypaI/login"
+                ></textarea>
+              </div>
+
+              <!-- Deep Header Scan input (shown when checkbox enabled) — your backend logic -->
+              <div id="extraInputsContainer" class="px-8 pb-2 flex flex-col gap-3"></div>
+
+              <!-- Toolbar -->
+              <div class="p-4 border-t border-white/10 bg-white/5 flex items-center justify-between gap-4">
+                <div class="flex items-center gap-6">
+
+                  <!-- Deep Header Scan checkbox — your backend's IDs preserved -->
+                  <input type="checkbox" id="deepScan" class="custom-checkbox">
+                  <label for="deepScan" class="flex items-center gap-2 cursor-pointer">
+                    <span class="checkbox-box"></span>
+                    <span class="text-xs text-slate-400 font-medium">Deep Header Scan</span>
+                  </label>
+
+                </div>
+
+                <!-- Analyze button — your backend's IDs preserved -->
+                <button
+                  id="analyzeBtn"
+                  onclick="runAnalysis()"
+                  class="bg-primary hover:bg-primary/90 text-background-dark font-black px-8 py-3 rounded-lg flex items-center gap-3 neo-glow transition-all transform hover:scale-[1.02] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100 flex-shrink-0"
+                >
+                  <span class="material-symbols-outlined font-bold" id="btnIcon">bolt</span>
+                  <span id="btnText">RUN AI ANALYSIS</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- AI Annotations — your backend's IDs preserved -->
+            <div class="flex flex-col gap-3">
+              <h3 id="annotationTitle" class="text-white text-xs font-bold uppercase tracking-widest flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-sm">warning</span>
+                AI Annotations (0 Flagged Points)
+              </h3>
+              <div id="aiAnnotations" class="flex flex-col gap-3"></div>
+            </div>
+
+          </div>
+          <!-- END LEFT COLUMN -->
+
+          <!-- RIGHT COLUMN -->
+          <div class="flex-1 flex flex-col gap-6 min-w-[320px]">
+
+            <!-- Threat Probability Gauge — your backend's IDs preserved -->
+            <div class="glass-panel rounded-xl p-8 flex flex-col items-center text-center">
+              <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-6">Threat Probability</p>
+              <div class="relative size-48 flex items-center justify-center">
+                <div class="absolute inset-0 rounded-full gauge-gradient opacity-20 blur-xl"></div>
+                <svg class="size-full transform -rotate-90" viewBox="0 0 160 160">
+                  <circle cx="80" cy="80" r="70" fill="transparent" stroke="#1e293b" stroke-width="8"/>
+                  <circle
+                    id="riskCircle"
+                    cx="80" cy="80" r="70"
+                    fill="transparent"
+                    stroke="#22c55e"
+                    stroke-width="12"
+                    stroke-linecap="round"
+                    stroke-dasharray="440"
+                    stroke-dashoffset="440"
+                    style="transition: stroke-dashoffset 1.2s ease-in-out, stroke 0.4s ease;"
+                  />
+                </svg>
+                <div class="absolute flex flex-col items-center">
+                  <span id="riskPercent" class="text-5xl font-technical font-black text-white">--%</span>
+                  <span id="riskLabel" class="text-[10px] text-slate-400 font-bold tracking-widest uppercase mt-1">Waiting</span>
+                </div>
+              </div>
+
+              <div class="mt-8 w-full grid grid-cols-2 gap-4">
+                <div class="bg-white/5 p-3 rounded-lg border border-white/5">
+                  <p class="text-[10px] text-slate-500 uppercase font-bold">Sender Reputation</p>
+                  <p id="senderReputation" class="text-red-400 font-technical text-lg font-bold">Critical</p>
+                </div>
+                <div class="bg-white/5 p-3 rounded-lg border border-white/5">
+                  <p class="text-[10px] text-slate-500 uppercase font-bold">Link Safety</p>
+                  <p id="linkSafety" class="text-orange-400 font-technical text-lg font-bold">Suspicious</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Forensic Evidence -->
+            <div class="glass-panel rounded-xl p-6">
+              <h4 class="text-white text-sm font-bold mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-lg">biotech</span>
+                Forensic Evidence
+              </h4>
+              <ul class="space-y-4">
+                <li class="flex items-start gap-3">
+                  <span class="material-symbols-outlined text-red-500 text-sm mt-0.5">cancel</span>
+                  <div>
+                    <p class="text-xs text-white font-medium">SPF/DKIM Mismatch</p>
+                    <p class="text-[10px] text-slate-500">The sender's IP is not authorized to send mail for paypaI.com.</p>
+                  </div>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="material-symbols-outlined text-green-500 text-sm mt-0.5">check_circle</span>
+                  <div>
+                    <p class="text-xs text-white font-medium">Encryption Check</p>
+                    <p class="text-[10px] text-slate-500">Email was sent over a secure TLS connection.</p>
+                  </div>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="material-symbols-outlined text-orange-500 text-sm mt-0.5">report</span>
+                  <div>
+                    <p class="text-xs text-white font-medium">Brand Hijacking</p>
+                    <p class="text-[10px] text-slate-500">AI identified 4 logo variants commonly used in phishing scams.</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Pro Tip -->
+            <div class="mt-auto bg-gradient-to-br from-primary/20 to-transparent border border-primary/20 rounded-xl p-6">
+              <p class="text-xs font-bold text-primary mb-2">PRO TIP</p>
+              <p class="text-xs text-slate-300 leading-relaxed mb-4">You can automatically block this sender across your organization with one click.</p>
+              <button class="w-full bg-slate-panel hover:bg-slate-panel/50 text-white text-xs font-bold py-2 rounded-lg border border-white/10 transition-colors">
+                Blacklist Sender Domain
+              </button>
+            </div>
+
+          </div>
+          <!-- END RIGHT COLUMN -->
+
+        </div>
+        <!-- END TWO-COLUMN ROW -->
+
+      </div>
+    </main>
+  </div>
+
+</div>
+
+<!-- RIGHT PANEL OVERLAY (from friend's update) -->
+<div id="panel-overlay"
+     class="fixed inset-0 z-40 bg-background-dark/60 backdrop-blur-sm"
+     onclick="closePanel()">
+</div>
+
+<!-- RIGHT SIDEBAR PANEL (from friend's update) -->
+<div id="right-panel"
+     class="fixed top-0 right-0 h-full w-72 z-50 bg-card-dark border-l border-border-dark flex flex-col"
+     style="box-shadow: -4px 0 40px rgba(0,0,0,0.6);">
+
+  <!-- Panel Header -->
+  <div class="p-6 border-b border-border-dark flex items-center justify-between shrink-0">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-blue-600 p-[2px] shrink-0">
+        <div class="w-full h-full rounded-full bg-background-dark overflow-hidden">
+          <img alt="Admin avatar" class="w-full h-full object-cover"
+               src="https://lh3.googleusercontent.com/aida-public/AB6AXuC27H73i3giOoKmDuVGpSFoaR7nULeNf3JBnGZUP-5HYEtbFKttm90f00NV_ySyAg2qsBg8WO7497M3V90vSBXHDf22MOwU3u-16cysZzLdD82ey6q8PtCFntR17LtAC_tVghfhqpqvpn5u0C1AP0-Cg8AMZr72R-U6enmspUG-gxcfY8DxBA_eJ8ygnSc39hmZoXDqEmEDJ3cSsfsX_YT1g2tv_et7BD7wczvT87ZfvxadahtYqdnLFTrpfnUcbB1rjt_VpQu9smw"/>
+        </div>
+      </div>
+      <div>
+        <p id="panel-username" class="text-white font-bold text-sm leading-none font-mono"></p>
+        <p id="panel-role" class="text-primary text-[9px] uppercase tracking-widest font-bold mt-1"></p>
+      </div>
+    </div>
+    <button onclick="closePanel()"
+            class="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 border border-border-dark flex items-center justify-center text-slate-400 hover:text-white transition-all">
+      <span class="material-symbols-outlined text-sm">close</span>
+    </button>
+  </div>
+
+  <!-- Status bar -->
+  <div class="px-6 py-3 border-b border-border-dark flex items-center gap-2 shrink-0">
+    <div class="pulse-dot w-2 h-2 bg-green-400 rounded-full animate-ping"></div>
+    <span class="text-[10px] text-slate-400 font-mono uppercase tracking-wider">Session Active</span>
+    <span class="ml-auto text-[10px] text-slate-500 font-mono">Nadiād, IN</span>
+  </div>
+
+  <!-- Nav Items -->
+  <div class="flex-1 overflow-y-auto p-4 space-y-1">
+    <div class="panel-nav-item" onclick="closePanel()">
+      <div class="icon bg-primary/10 border border-primary/20">
+        <span class="material-symbols-outlined text-primary">manage_accounts</span>
+      </div>
+      <div class="flex-1 min-w-0">
+        <p class="text-white text-sm font-semibold leading-tight">Profile</p>
+        <p class="text-slate-500 text-[10px] mt-0.5">View &amp; edit your operator identity</p>
+      </div>
+      <span class="material-symbols-outlined arrow">chevron_right</span>
+    </div>
+
+    <div class="panel-nav-item" onclick="closePanel()">
+      <div class="icon bg-emerald-500/10 border border-emerald-500/20">
+        <span class="material-symbols-outlined text-emerald-400">workspace_premium</span>
+      </div>
+      <div class="flex-1 min-w-0">
+        <p class="text-white text-sm font-semibold leading-tight">Subscription</p>
+        <p class="text-slate-500 text-[10px] mt-0.5">Manage plan &amp; billing</p>
+      </div>
+      <span class="px-1.5 py-0.5 bg-emerald-500/10 text-emerald-400 text-[9px] font-bold rounded border border-emerald-500/20 mr-1">Enterprise</span>
+      <span class="material-symbols-outlined arrow">chevron_right</span>
+    </div>
+
+    <div class="h-px bg-border-dark my-3 mx-2"></div>
+
+    <div class="panel-nav-item" onclick="closePanel()">
+      <div class="icon bg-white/5 border border-border-dark">
+        <span class="material-symbols-outlined text-slate-300">tune</span>
+      </div>
+      <div class="flex-1 min-w-0">
+        <p class="text-white text-sm font-semibold leading-tight">Settings</p>
+        <p class="text-slate-500 text-[10px] mt-0.5">Preferences, API keys, 2FA</p>
+      </div>
+      <span class="material-symbols-outlined arrow">chevron_right</span>
+    </div>
+
+    <div class="panel-nav-item" onclick="closePanel()">
+      <div class="icon bg-purple-500/10 border border-purple-500/20">
+        <span class="material-symbols-outlined text-purple-400">help_center</span>
+      </div>
+      <div class="flex-1 min-w-0">
+        <p class="text-white text-sm font-semibold leading-tight">Help Center</p>
+        <p class="text-slate-500 text-[10px] mt-0.5">Docs, guides &amp; support</p>
+      </div>
+      <span class="material-symbols-outlined arrow">chevron_right</span>
+    </div>
+
+    <div class="h-px bg-border-dark my-3 mx-2"></div>
+
+    <div class="bg-primary/5 border border-primary/10 rounded-xl p-4">
+      <div class="flex justify-between items-center mb-2">
+        <span class="text-xs font-bold text-primary">NODE STATUS</span>
+        <div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+      </div>
+      <p class="text-[11px] text-slate-400 leading-relaxed">AI engine operating at 98.4% efficiency. No active breaches detected.</p>
+    </div>
+  </div>
+
+  <!-- Footer: Log Out -->
+  <div class="p-4 border-t border-border-dark shrink-0">
+    <button id="logout-btn"
+            class="w-full py-3 bg-white/5 hover:bg-red-500/10 border border-border-dark hover:border-red-500/30 text-slate-400 hover:text-red-400 font-bold rounded-lg transition-all flex items-center justify-center gap-2 text-sm">
+      <span class="material-symbols-outlined text-sm">logout</span>
+      Log Out
+    </button>
+  </div>
+
+</div>
+
+<script>
+  // =============================================
+  // RIGHT PANEL JS (from friend's update)
+  // =============================================
+  function openPanel() {
+    document.getElementById('panel-overlay').classList.add('open');
+    document.getElementById('right-panel').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePanel() {
+    document.getElementById('panel-overlay').classList.remove('open');
+    document.getElementById('right-panel').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closePanel();
+  });
+
+  const panelStyles = `
+    #panel-overlay {
+      pointer-events: none; opacity: 0; transition: opacity 0.35s ease;
+    }
+    #panel-overlay.open { pointer-events: auto; opacity: 1; }
+    #right-panel { transform: translateX(100%); transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1); }
+    #right-panel.open { transform: translateX(0); }
+    .pulse-dot { animation: pulse 2s infinite; }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(16,185,129, 0.4); }
+      50% { box-shadow: 0 0 0 6px rgba(16,185,129, 0); }
+    }
+    .panel-nav-item {
+      display: flex; align-items: center; gap: 12px; padding: 12px 16px;
+      border-radius: 12px; cursor: pointer; transition: all 0.2s;
+      color: #94a3b8; font-weight: 500; font-size: 0.875rem; border: 1px solid transparent;
+    }
+    .panel-nav-item:hover { background: rgba(0,191,255,0.06); color: #ffffff; border-color: rgba(0,191,255,0.15); }
+    .panel-nav-item .icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 18px; }
+    .panel-nav-item .arrow { margin-left: auto; font-size: 16px; opacity: 0.4; transition: all 0.2s; }
+    .panel-nav-item:hover .arrow { opacity: 1; transform: translateX(3px); }
+  `;
+  const style = document.createElement('style');
+  style.textContent = panelStyles;
+  document.head.appendChild(style);
+
+  // =============================================
+  // YOUR BACKEND LOGIC — ZERO CHANGES
+  // =============================================
+  // const API_BASE = "http://127.0.0.1:5001";
+  const API_BASE = "http://localhost:5000";
+
+  // logout — same logic as dashboard (added by krisha)
+  document.getElementById("logout-btn").addEventListener("click", async () => {
+    try {
+        const res = await fetch("http://localhost:5000/api/auth/logout", {
+            method: "POST",
+            credentials: "include" // VERY IMPORTANT (cookies)
+        });
+        const data = await res.json();
+        if (data.success) {
+            alert("Logged out successfully");
+            window.location.href = "index.html";
+        } else {
+            alert("Logout failed");
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Error logging out");
+    }
+  });
+
+  //*************************************load user info (added by krisha)************************************************
+  async function loadUserInfo() {
+    try {
+        const res = await fetch("http://localhost:5000/api/auth/me", {
+            credentials: "include"
+        });
+        const data = await res.json();
+        if (data.success) {
+            document.getElementById("username").innerText = data.user.name;
+            document.getElementById("panel-username").innerText = data.user.name;
+            if (data.user.role === "admin") {
+                document.getElementById("role").innerText = "Tier: Admin";
+                document.getElementById("panel-role").innerText = "Tier: Admin";
+            } else {
+                document.getElementById("role").innerText = "Tier: User";
+                document.getElementById("panel-role").innerText = "Tier: User";
+            }
+        } else {
+            // not logged in → redirect
+            window.location.href = "index.html";
+        }
+    } catch (err) {
+        console.error(err);
+    }
+  }
+
+  // Init on load — merged loadUserInfo + toggleHeaderInput
+  window.onload = function () {
+    toggleHeaderInput();
+    loadUserInfo();
+  };
+
+  // Toggle header textarea based on Deep Scan checkbox
+  document.getElementById("deepScan").addEventListener("change", toggleHeaderInput);
+
+  function toggleHeaderInput() {
+    const deepScan  = document.getElementById("deepScan").checked;
+    const container = document.getElementById("extraInputsContainer");
+
+    let headerBox = document.getElementById("emailHeaders");
+    if (!headerBox) {
+      headerBox = document.createElement("textarea");
+      headerBox.id          = "emailHeaders";
+      headerBox.rows        = 4;
+      headerBox.placeholder = "Paste email headers here (e.g. Received:, DKIM-Signature:, ...)";
+      headerBox.className   = "w-full bg-black/20 border border-white/10 rounded-lg p-4 text-xs text-slate-300 font-mono resize-none focus:ring-primary focus:border-primary";
+      container.appendChild(headerBox);
+    }
+
+    headerBox.style.display = deepScan ? "block" : "none";
+  }
+
+
+  // ---------- MAIN ANALYSIS ----------
+  async function runAnalysis() {
+    const deepScan  = document.getElementById("deepScan").checked;
+    const emailText = document.getElementById("emailBody").value.trim();
+    const headers   = document.getElementById("emailHeaders")?.value || "";
+
+    if (!emailText) {
+      alert("Please paste email content before running analysis.");
+      return;
+    }
+
+    setButtonLoading(true);
+
+    document.getElementById("riskPercent").innerText = "...";
+    document.getElementById("riskLabel").innerText   = "Analyzing";
+
+    try {
+      const response = await fetch(`${API_BASE}/api/phishing/analyze`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",                    // needed for cookie auth
+        body: JSON.stringify({
+          email: emailText,
+          email_headers: headers,
+          deepScan: String(deepScan)
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Server returned ${response.status}: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+
+      renderAnnotations(data.result?.flags || []);
+      updateGauge(data.result?.confidence || 0);
+
+    } catch (error) {
+      console.error("Analysis error:", error);
+      document.getElementById("riskPercent").innerText = "ERR";
+      document.getElementById("riskLabel").innerText   = "Connection Failed";
+      renderAnnotations([`Connection failed: ${error.message}`]);
+    } finally {
+      setButtonLoading(false);
+    }
+  }
+
+
+  // ---------- GAUGE UPDATE ----------
+  function updateGauge(rawConfidence) {
+    let percent = parseFloat(rawConfidence);
+    if (percent <= 1) percent *= 100;
+    percent = Math.round(Math.min(Math.max(percent, 0), 100));
+
+    document.getElementById("riskPercent").innerText = percent + "%";
+
+    const circle        = document.getElementById("riskCircle");
+    const circumference = 440;
+    const offset        = circumference - (percent / 100) * circumference;
+    circle.style.strokeDashoffset = offset;
+
+    let color, label;
+    if (percent <= 40) {
+      color = "#22c55e"; label = "Low Risk";
+    } else if (percent <= 70) {
+      color = "#f97316"; label = "Medium Risk";
+    } else {
+      color = "#ef4444"; label = "High Risk";
+    }
+
+    circle.style.stroke = color;
+    document.getElementById("riskLabel").innerText = label;
+  }
+
+
+  // ---------- BUTTON LOADING STATE ----------
+  function setButtonLoading(loading) {
+    const btn  = document.getElementById("analyzeBtn");
+    const icon = document.getElementById("btnIcon");
+    const text = document.getElementById("btnText");
+
+    btn.disabled   = loading;
+    icon.innerText = loading ? "hourglass_top" : "bolt";
+    text.innerText = loading ? "ANALYZING..."   : "RUN AI ANALYSIS";
+
+    loading ? icon.classList.add("animate-spin") : icon.classList.remove("animate-spin");
+  }
+
+
+  // ---------- AI ANNOTATIONS ----------
+  function renderAnnotations(flags) {
+    if (!Array.isArray(flags)) flags = [];
+
+    const container = document.getElementById("aiAnnotations");
+    const title     = document.getElementById("annotationTitle");
+
+    container.innerHTML = "";
+    title.innerHTML = `
+      <span class="material-symbols-outlined text-primary text-sm">warning</span>
+      AI Annotations (${flags.length} Flagged Points)
+    `;
+
+    if (flags.length === 0) {
+      container.innerHTML = `<div class="text-slate-500 text-xs italic">No suspicious patterns detected.</div>`;
+      return;
+    }
+
+    flags.forEach((flag) => {
+      const div = document.createElement("div");
+      div.className = "border border-red-400/30 bg-red-400/10 rounded-lg p-4 text-xs text-red-300 flex items-start gap-3";
+      div.innerHTML = `
+        <span class="material-symbols-outlined text-red-400 text-sm mt-0.5 shrink-0">report</span>
+        <span>${flag}</span>
+      `;
+      container.appendChild(div);
+    });
+  }
+</script>
+</body>
+</html>
